@@ -246,6 +246,10 @@ extern layer_state_t layer_state;
 #    include "process_tri_layer.h"
 #endif
 
+#ifdef OPENRGB_ENABLE
+#    include "openrgb.h"
+#endif
+
 void set_single_persistent_default_layer(uint8_t default_layer);
 
 #define IS_LAYER_ON(layer) layer_state_is(layer)

@@ -923,3 +923,9 @@ ifeq ($(strip $(OS_DETECTION_ENABLE)), yes)
         OPT_DEFS += -DOS_DETECTION_DEBUG_ENABLE
     endif
 endif
+
+ifeq ($(strip $(OPENRGB_ENABLE)), yes)
+    RAW_ENABLE := yes
+    SRC += $(QUANTUM_DIR)/openrgb.c
+    OPT_DEFS += -DOPENRGB_ENABLE
+endif
