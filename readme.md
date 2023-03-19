@@ -13,6 +13,7 @@ Pull requests are welcome :)
 - **ORGB_SWITCH_KEYCODE_LAYER** - Specify layer for above keycode for the button to switch between OpenRGB and VIA raw HID mode.
 - **ORGB_SWITCH_KEYCODE_MOD_LAYER** - Specify layer for above for showing the current mode light status. (On = OpenRGB, Off = VIA)
 ## Credits
+- [Kasper24's original QMK OpenRGB implementation](https://github.com/Kasper24/QMK-OpenRGB)
 - [HorrorTroll's fork on QMK OpenRGB](https://github.com/HorrorTroll/qmk_firmware/tree/openrgb_develop)
 - [Changes for VIA OpenRGB Hybrid](https://github.com/gloryhzw/qmk_tool/wiki/Changes-for-VIA-OpenRGB-Hybrid)
 
