@@ -23,6 +23,20 @@
 
 #define RAW_EPSIZE 64
 
+#if defined VIA_OPENRGB_HYBRID && defined VIA_OPENRGB_HYBRID_APPEND_COMMAND
+enum openrgb_command_id {
+    OPENRGB_GET_PROTOCOL_VERSION = 0x16,
+    OPENRGB_GET_QMK_VERSION,
+    OPENRGB_GET_DEVICE_INFO,
+    OPENRGB_GET_MODE_INFO,
+    OPENRGB_GET_LED_INFO,
+    OPENRGB_GET_ENABLED_MODES,
+
+    OPENRGB_SET_MODE,
+    OPENRGB_DIRECT_MODE_SET_SINGLE_LED,
+    OPENRGB_DIRECT_MODE_SET_LEDS,
+};
+#else
 enum openrgb_command_id {
     OPENRGB_GET_PROTOCOL_VERSION = 1,
     OPENRGB_GET_QMK_VERSION,
@@ -35,6 +49,7 @@ enum openrgb_command_id {
     OPENRGB_DIRECT_MODE_SET_SINGLE_LED,
     OPENRGB_DIRECT_MODE_SET_LEDS,
 };
+#endif
 
 enum openrgb_responses {
     OPENRGB_FAILURE        = 25,
@@ -55,6 +70,8 @@ void openrgb_set_mode(uint8_t *data);
 void openrgb_direct_mode_set_single_led(uint8_t *data);
 void openrgb_direct_mode_set_leds(uint8_t *data);
 
+#ifndef VIA_OPENRGB_HYBRID_APPEND_COMMAND
 bool is_orgb_mode;
 extern void toggle_orgb_mode(void);
 extern bool get_orgb_mode(void);
+#endif

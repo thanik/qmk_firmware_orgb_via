@@ -27,7 +27,7 @@
 #include <color.h>
 
 #if !defined(OPENRGB_DIRECT_MODE_STARTUP_RED)
-#    define OPENRGB_DIRECT_MODE_STARTUP_RED 255
+#    define OPENRGB_DIRECT_MODE_STARTUP_RED 120
 #endif
 
 #if !defined(OPENRGB_DIRECT_MODE_STARTUP_GREEN)
@@ -177,7 +177,10 @@ static const uint8_t openrgb_rgb_matrix_effects_indexes[]           = {
 static uint8_t raw_hid_buffer[RAW_EPSIZE];
 
 #if defined VIA_OPENRGB_HYBRID
-bool is_orgb_mode = true;
+    #if !defined VIA_OPENRGB_HYBRID_APPEND_COMMAND
+        bool is_orgb_mode = true;
+    #endif
+
 void orgb_raw_hid_receive(uint8_t *data, uint8_t length) {
 #else
 void raw_hid_receive(uint8_t *data, uint8_t length) {
@@ -383,6 +386,7 @@ void openrgb_direct_mode_set_leds(uint8_t *data) {
     }
 }
 
+#if !defined VIA_OPENRGB_HYBRID_APPEND_COMMAND
 bool get_orgb_mode()
 {
     return is_orgb_mode;
@@ -392,3 +396,4 @@ void toggle_orgb_mode()
 {
     is_orgb_mode = !is_orgb_mode;
 }
+#endif

@@ -1,71 +1,73 @@
 #include QMK_KEYBOARD_H
 
-#if defined VIA_OPENRGB_HYBRID_CUSTOM_KEYCODE
-enum via_orgb_keycodes
-{
-    ORGB_SWITCH = SAFE_RANGE,
-};
-
-#define ORGB_SWITCH_KEYCODE ORGB_SWITCH
-#else
-#define ORGB_SWITCH_KEYCODE KC_V
-#define ORGB_SWITCH_KEYCODE_LAYER 0
-#define ORGB_SWITCH_KEYCODE_MOD_LAYER 1
-#endif
-
-#include "openrgb.h"
-bool rgb_matrix_indicators_user(void)
-{
-    uint8_t layer = get_highest_layer(layer_state|default_layer_state);
-    if (layer > 0)
-    {
-        for (uint8_t row = 0; row < MATRIX_ROWS; ++row)
+#ifndef VIA_OPENRGB_HYBRID_APPEND_COMMAND
+    #if defined VIA_OPENRGB_HYBRID_CUSTOM_KEYCODE
+        enum via_orgb_keycodes
         {
-            for (uint8_t col = 0; col < MATRIX_COLS; ++col)
-            {
-                uint8_t index = g_led_config.matrix_co[row][col];
-#if defined ORGB_SWITCH_KEYCODE_LAYER
-                if (index != NO_LED && keycode_at_keymap_location(ORGB_SWITCH_KEYCODE_LAYER, row, col) == ORGB_SWITCH_KEYCODE)
-#else
-                if (index != NO_LED && keycode_at_keymap_location(layer, row, col) == ORGB_SWITCH_KEYCODE)
-#endif
-                {
-                    if(get_orgb_mode())
-                    {
-                        rgb_matrix_set_color(index, RGB_WHITE);
-                    }
-                    else
-                    {
-                        rgb_matrix_set_color(index, RGB_BLACK);
-                    }
+            ORGB_SWITCH = SAFE_RANGE,
+        };
 
+        #define ORGB_SWITCH_KEYCODE ORGB_SWITCH
+    #else
+        #define ORGB_SWITCH_KEYCODE KC_V
+        #define ORGB_SWITCH_KEYCODE_LAYER 0
+        #define ORGB_SWITCH_KEYCODE_MOD_LAYER 1
+    #endif
+
+    #include "openrgb.h"
+    bool rgb_matrix_indicators_user(void)
+    {
+        uint8_t layer = get_highest_layer(layer_state|default_layer_state);
+        if (layer > 0)
+        {
+            for (uint8_t row = 0; row < MATRIX_ROWS; ++row)
+            {
+                for (uint8_t col = 0; col < MATRIX_COLS; ++col)
+                {
+                    uint8_t index = g_led_config.matrix_co[row][col];
+    #if defined ORGB_SWITCH_KEYCODE_LAYER
+                    if (index != NO_LED && keycode_at_keymap_location(ORGB_SWITCH_KEYCODE_LAYER, row, col) == ORGB_SWITCH_KEYCODE)
+    #else
+                    if (index != NO_LED && keycode_at_keymap_location(layer, row, col) == ORGB_SWITCH_KEYCODE)
+    #endif
+                    {
+                        if(get_orgb_mode())
+                        {
+                            rgb_matrix_set_color(index, RGB_WHITE);
+                        }
+                        else
+                        {
+                            rgb_matrix_set_color(index, RGB_BLACK);
+                        }
+
+                    }
                 }
             }
         }
+        return true;
     }
-    return true;
-}
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode)
-    {
-        case ORGB_SWITCH_KEYCODE:
-#if defined ORGB_SWITCH_KEYCODE_MOD_LAYER
-            if (get_highest_layer(layer_state|default_layer_state) == ORGB_SWITCH_KEYCODE_MOD_LAYER && record->event.pressed)
-#else
-            if (record->event.pressed)
+    bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+        switch (keycode)
+        {
+            case ORGB_SWITCH_KEYCODE:
+    #if defined ORGB_SWITCH_KEYCODE_MOD_LAYER
+                if (get_highest_layer(layer_state|default_layer_state) == ORGB_SWITCH_KEYCODE_MOD_LAYER && record->event.pressed)
+    #else
+                if (record->event.pressed)
+    #endif
+                {
+                    toggle_orgb_mode();
+                    return false;
+                }
+
+            default:
+                return true;
+
+        }
+        return true;
+    };
 #endif
-            {
-                toggle_orgb_mode();
-                return false;
-            }
-
-        default:
-            return true;
-
-    }
-    return true;
-};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_65_ansi(

@@ -926,6 +926,11 @@ endif
 
 ifeq ($(strip $(OPENRGB_ENABLE)), yes)
     RAW_ENABLE := yes
-    SRC += $(QUANTUM_DIR)/openrgb.c
+    SRC += $(QUANTUM_DIR)/openrgb.c \
+	       $(QUANTUM_DIR)/rawhid_router.c
     OPT_DEFS += -DOPENRGB_ENABLE
+
+    ifeq ($(strip $(VIA_ENABLE)), yes)
+        OPT_DEFS += -DVIA_OPENRGB_HYBRID
+    endif
 endif
