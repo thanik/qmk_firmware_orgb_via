@@ -314,7 +314,7 @@ void openrgb_get_led_info(uint8_t *data) {
             raw_hid_buffer[data_idx + 7] = KC_NO;
         }
         else {
-            raw_hid_buffer[data_idx + 7] = keycode_at_keymap_location(0, row, col);
+            raw_hid_buffer[data_idx + 7] = keymap_key_to_keycode(0, (keypos_t) {row, col});
         }
     }
 }
