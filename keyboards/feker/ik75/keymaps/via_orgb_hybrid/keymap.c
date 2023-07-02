@@ -236,9 +236,9 @@ bool rgb_matrix_indicators_user(void) {
             {
                 uint8_t index = g_led_config.matrix_co[row][col];
 #if defined ORGB_SWITCH_KEYCODE_LAYER
-                if (index != NO_LED && keymap_key_to_keycode(ORGB_SWITCH_KEYCODE_LAYER, (keypos_t) {row, col}) == ORGB_SWITCH_KEYCODE)
+                if (index != NO_LED && keymap_key_to_keycode(ORGB_SWITCH_KEYCODE_LAYER, (keypos_t) {col, row}) == ORGB_SWITCH_KEYCODE)
 #else
-                if (index != NO_LED && keymap_key_to_keycode(layer, (keypos_t) {row, col}) == ORGB_SWITCH_KEYCODE)
+                if (index != NO_LED && keymap_key_to_keycode(layer, (keypos_t) {col, row}) == ORGB_SWITCH_KEYCODE)
 #endif
                 {
                     if(get_orgb_mode())
